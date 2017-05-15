@@ -73,23 +73,27 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="5nn-pz-VIL">
+                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="5nn-pz-VIL">
                                             <rect key="frame" x="8" y="7" width="359" height="30"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SLF-hM-ph7">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="113" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3nH-me-y2d">
+                                                    <rect key="frame" x="123" y="0.0" width="113" height="30"/>
+                                                    <state key="normal" title="Remove"/>
+                                                    <connections>
+                                                        <action selector="removeComicDownload:" destination="hTc-AO-njz" eventType="touchUpInside" id="MCy-Xi-DXX"/>
+                                                    </connections>
+                                                </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vbD-Si-jHJ">
-                                                    <rect key="frame" x="239" y="0.0" width="120" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="120" id="XoM-nK-jKh"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="246" y="0.0" width="113" height="30"/>
                                                     <state key="normal" title="Download"/>
                                                     <connections>
-                                                        <action selector="mainAction:" destination="hTc-AO-njz" eventType="touchUpInside" id="V2m-Wg-1UE"/>
+                                                        <action selector="downloadComic:" destination="hTc-AO-njz" eventType="touchUpInside" id="3wd-hV-teS"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -102,8 +106,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="actionButton" destination="vbD-Si-jHJ" id="cZA-86-FTA"/>
                                     <outlet property="comicTitle" destination="SLF-hM-ph7" id="JVv-j8-NfW"/>
+                                    <outlet property="downloadButton" destination="vbD-Si-jHJ" id="SOb-0S-Nb7"/>
+                                    <outlet property="removeButton" destination="3nH-me-y2d" id="BcN-H8-TXI"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

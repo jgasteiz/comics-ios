@@ -16,7 +16,7 @@ class ComicsController {
     
     static let sharedInstance = ComicsController()
     
-    let mock = false
+    let mock = true
     
     func getAllSeriesURL () -> String {
         if mock {

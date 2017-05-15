@@ -14,38 +14,31 @@ class ComicTableViewCell: UITableViewCell {
     let comicsController = ComicsController.sharedInstance
     
     @IBOutlet weak var comicTitle: UILabel!
-    @IBOutlet weak var actionButton: UIButton!
+    @IBOutlet weak var downloadButton: UIButton!
+    @IBOutlet weak var removeButton: UIButton!
     
-    @IBAction func mainAction(_ sender: Any) {
-        if let comic = comic {
-            if comic.isOffline() {
-                removeDownloadedComic()
-            } else {
-                downloadComic()
-            }
-        }
-    }
-    
-    func setContent (comic: Comic) {
-        self.comic = comic
-        comicTitle.text = comic.title
-        
-        if comic.isOffline() {
-            actionButton.titleLabel?.text = "Remove"
-        } else {
-            actionButton.titleLabel?.text = "Download"
-        }
-    }
-    
-    func downloadComic () {
+    @IBAction func downloadComic(_ sender: Any) {
         if let comic = comic {
             comicsController.downloadComic(comic: comic)
         }
     }
     
-    func removeDownloadedComic () {
+    @IBAction func removeComicDownload(_ sender: Any) {
         if let comic = comic {
             comic.getComicDirectoryURL().emptyDirectory()
+        }
+    }
+    
+    func setContent (offlineComicIds: [NSNumber], comic: Comic) {
+        self.comic = comic
+        comicTitle.text = comic.title
+        
+        if offlineComicIds.contains(comic.id) {
+            downloadButton.isHidden = true
+            removeButton.isHidden = false
+        } else {
+            removeButton.isHidden = true
+            downloadButton.isHidden = false
         }
     }
 }

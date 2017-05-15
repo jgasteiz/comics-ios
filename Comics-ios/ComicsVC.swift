@@ -13,6 +13,7 @@ class ComicsVC: UITableViewController {
     
     var series: Series?
     var comicList: [Comic] = []
+    var offlineComicIds: [NSNumber] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +49,14 @@ class ComicsVC: UITableViewController {
                 series: series,
                 onComicsFetched: { (comics) in
                     self.comicList = comics
+                    
+                    // Fetch offline comic ids.
+                    for comic in comics {
+                        if comic.isOffline() {
+                            self.offlineComicIds.append(comic.id)
+                        }
+                    }
+                    
                     self.tableView.reloadData()
                     self.refreshControl?.endRefreshing()
             }, onError: {
@@ -95,7 +104,7 @@ extension ComicsVC {
         
         let comic = comicList[indexPath.row]
         
-        cell.setContent(comic: comic)
+        cell.setContent(offlineComicIds: offlineComicIds, comic: comic)
         
         return cell
     }
