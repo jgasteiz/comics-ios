@@ -16,7 +16,7 @@ class ComicsController {
     
     static let sharedInstance = ComicsController()
     
-    let mock = true
+    let mock = false
     
     func getAllSeriesURL () -> String {
         if mock {
@@ -109,7 +109,11 @@ class ComicsController {
             })
     }
     
-    func downloadComic (comic: Comic) {
+    func downloadComic (
+        comic: Comic,
+        onPageDownloaded: @escaping (String) -> Void,
+        onComicDownloaded: @escaping (String) -> Void
+    ) {
         let downloadsDirectory = ComicsController.getDownloadsDirectory()
         print(downloadsDirectory.path)
         
@@ -120,16 +124,49 @@ class ComicsController {
         // Remove any existing files/directories in the comic directory.
         comic.getComicDirectoryURL().emptyDirectory()
         
+        // Initialize the comic download
+        downloads[comic.id.toString()] = [
+            "numPages": comic.pages.count as AnyObject,
+            "pagesDownloaded": 0 as AnyObject
+        ]
+        
         // Download all comic pages in the comic directory.
         for page in comic.pages {
             if let pageURL = URL(string: page), let fileName = pageURL.getFileName() {
                 let pageId = "\(comic.id)__\(page)"
                 downloads[pageId] = ["taskRunning": true as AnyObject]
-                downloads[pageId]!["request"] = downloadFile(
-                    downloadURL: pageURL,
-                    fileDestination: comic.getComicDirectoryURL().appendingPathComponent(fileName),
-                    fileId: pageId
-                )
+                
+                let urlRequest = URLRequest(url: pageURL)
+                downloads[pageId]!["request"] = Alamofire
+                    .download(
+                        urlRequest,
+                        to: { (destinationURL, response) -> (destinationURL: URL, options: DownloadRequest.DownloadOptions) in
+                            
+                            return (
+                                destinationURL: comic.getComicDirectoryURL().appendingPathComponent(fileName),
+                                options: DownloadRequest.DownloadOptions()
+                            )
+                    })
+                    .responseData(completionHandler: { response in
+                        if (response.response?.statusCode == 200) {
+                            print("Page `\(pageURL)` downloaded successfully.")
+                        } else {
+                            print ("ERROR: Page `\(pageURL)` wasn't downloaded successfully.")
+                        }
+                        
+                        self.downloads[pageId] = ["taskRunning": false as AnyObject]
+                        self.downloads[comic.id.toString()]?["pagesDownloaded"] = self.downloads[comic.id.toString()]?["pagesDownloaded"] as! Int + 1 as AnyObject
+                        
+                        let totalPages = self.downloads[comic.id.toString()]?["numPages"] as! Int
+                        let downloadedPages = self.downloads[comic.id.toString()]?["pagesDownloaded"] as! Int
+                        let message = "\(downloadedPages) out of \(totalPages) pages downloaded"
+                        onPageDownloaded(message)
+                        
+                        // Check if all the pages have been downloaded
+                        if (totalPages == downloadedPages) {
+                            onComicDownloaded(message)
+                        }
+                    })
             }
         }
     }
@@ -155,31 +192,5 @@ class ComicsController {
         } catch let error as NSError {
             print(error.localizedDescription)
         }
-    }
-    
-    ////////////////////////////////////
-    // MARK: - Private functions
-    ////////////////////////////////////
-    
-    private func downloadFile (downloadURL: URL, fileDestination: URL, fileId: String) -> DownloadRequest {
-        
-        let urlRequest = URLRequest(url: downloadURL)
-        
-        return Alamofire
-            .download(
-                urlRequest,
-                to: { (destinationURL, response) -> (destinationURL: URL, options: DownloadRequest.DownloadOptions) in
-                
-                return (destinationURL: fileDestination, options: DownloadRequest.DownloadOptions())
-            })
-            .responseData(completionHandler: { response in
-                if (response.response?.statusCode == 200) {
-                    print("Page `\(downloadURL)` downloaded successfully.")
-                } else {
-                    print ("ERROR: Page `\(downloadURL)` wasn't downloaded successfully.")
-                }
-                
-                self.downloads[fileId] = ["taskRunning": false as AnyObject]
-            })
     }
 }

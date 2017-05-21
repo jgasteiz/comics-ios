@@ -16,10 +16,25 @@ class ComicTableViewCell: UITableViewCell {
     @IBOutlet weak var comicTitle: UILabel!
     @IBOutlet weak var downloadButton: UIButton!
     @IBOutlet weak var removeButton: UIButton!
+    @IBOutlet weak var downloadProgress: UILabel!
     
     @IBAction func downloadComic(_ sender: Any) {
         if let comic = comic {
-            comicsController.downloadComic(comic: comic)
+            downloadButton.isHidden = true
+            removeButton.isHidden = true
+            downloadProgress.text = "Downloading"
+            downloadProgress.isHidden = false
+            
+            comicsController.downloadComic(
+                comic: comic,
+                onPageDownloaded: { (message) in
+                    self.downloadProgress.text = message
+                },
+                onComicDownloaded: { (message) in
+                    self.downloadProgress.isHidden = true
+                    self.downloadButton.isHidden = true
+                    self.removeButton.isHidden = false
+                })
         }
     }
     

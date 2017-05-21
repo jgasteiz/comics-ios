@@ -77,20 +77,26 @@
                                             <rect key="frame" x="8" y="7" width="359" height="30"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SLF-hM-ph7">
-                                                    <rect key="frame" x="0.0" y="0.0" width="113" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="82.5" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ff-Ag-ZBZ">
+                                                    <rect key="frame" x="92.5" y="0.0" width="82" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3nH-me-y2d">
-                                                    <rect key="frame" x="123" y="0.0" width="113" height="30"/>
+                                                    <rect key="frame" x="184.5" y="0.0" width="82.5" height="30"/>
                                                     <state key="normal" title="Remove"/>
                                                     <connections>
                                                         <action selector="removeComicDownload:" destination="hTc-AO-njz" eventType="touchUpInside" id="MCy-Xi-DXX"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vbD-Si-jHJ">
-                                                    <rect key="frame" x="246" y="0.0" width="113" height="30"/>
+                                                    <rect key="frame" x="277" y="0.0" width="82" height="30"/>
                                                     <state key="normal" title="Download"/>
                                                     <connections>
                                                         <action selector="downloadComic:" destination="hTc-AO-njz" eventType="touchUpInside" id="3wd-hV-teS"/>
@@ -108,6 +114,7 @@
                                 <connections>
                                     <outlet property="comicTitle" destination="SLF-hM-ph7" id="JVv-j8-NfW"/>
                                     <outlet property="downloadButton" destination="vbD-Si-jHJ" id="SOb-0S-Nb7"/>
+                                    <outlet property="downloadProgress" destination="7ff-Ag-ZBZ" id="tRE-RG-Cfc"/>
                                     <outlet property="removeButton" destination="3nH-me-y2d" id="BcN-H8-TXI"/>
                                 </connections>
                             </tableViewCell>
