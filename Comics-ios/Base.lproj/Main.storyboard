@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hZY-Dm-x3p">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="aMB-j4-idM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -55,7 +55,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OSD-Ij-h6M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="596" y="26.53673163418291"/>
+            <point key="canvasLocation" x="2474.4000000000001" y="26.53673163418291"/>
         </scene>
         <!--ComicsVC-->
         <scene sceneID="8LM-Xb-REo">
@@ -131,7 +131,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uez-go-bpk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1308" y="27"/>
+            <point key="canvasLocation" x="3356" y="26.53673163418291"/>
         </scene>
         <!--Comic ReadVC-->
         <scene sceneID="Z20-EU-EEa">
@@ -206,25 +206,114 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9D6-Av-YjT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2019" y="27"/>
+            <point key="canvasLocation" x="4228" y="26.53673163418291"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="Lir-AZ-ApB">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="aMB-j4-idM" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="Gig-rS-5L7">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="hPZ-tZ-N2h" kind="relationship" relationship="viewControllers" id="AQo-8p-pGf"/>
+                        <segue destination="V91-MW-Ag0" kind="relationship" relationship="viewControllers" id="95y-En-vUh"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zvn-xJ-VDf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="596" y="26.53673163418291"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="ga0-my-K24">
+        <scene sceneID="2Dn-zg-24T">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hZY-Dm-x3p" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hPZ-tZ-N2h" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" systemItem="bookmarks" id="ljY-PT-2uD"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="WSh-28-xPP">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="RiY-zY-SOJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="tmf-w2-PYS" kind="relationship" relationship="rootViewController" id="MHI-bK-EHf"/>
+                        <segue destination="tmf-w2-PYS" kind="relationship" relationship="rootViewController" id="91m-wu-Edm"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MCp-gX-mx1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EqB-r9-ITS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-41" y="27"/>
+            <point key="canvasLocation" x="1535.2" y="26.53673163418291"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="p51-5j-Kwq">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="V91-MW-Ag0" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" systemItem="downloads" id="jFB-x1-zi6"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vUB-nt-hbB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Cv7-2a-o6f" kind="relationship" relationship="rootViewController" id="RhW-Dl-vJI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1ZD-1Y-r5r" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1533.5999999999999" y="793.8530734632684"/>
+        </scene>
+        <!--Offline Comics-->
+        <scene sceneID="HBQ-Br-Mpq">
+            <objects>
+                <tableViewController id="Cv7-2a-o6f" customClass="OfflineComicsVC" customModule="Comics_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="78" sectionHeaderHeight="28" sectionFooterHeight="28" id="tHl-Wb-TOU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="OfflineComicCell" rowHeight="78" id="515-GR-hUw" customClass="OfflineComicTableViewCell" customModule="Comics_ios" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="78"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="515-GR-hUw" id="k40-lc-FuP">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="77.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="38t-Wu-NnI">
+                                            <rect key="frame" x="8" y="28" width="359" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="38t-Wu-NnI" firstAttribute="centerY" secondItem="k40-lc-FuP" secondAttribute="centerY" id="63x-xS-yee"/>
+                                        <constraint firstAttribute="trailing" secondItem="38t-Wu-NnI" secondAttribute="trailing" constant="8" id="HZb-hp-f7y"/>
+                                        <constraint firstItem="38t-Wu-NnI" firstAttribute="leading" secondItem="k40-lc-FuP" secondAttribute="leading" constant="8" id="U2f-2y-kRP"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="comicTitle" destination="38t-Wu-NnI" id="Cwt-0j-Kdz"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Cv7-2a-o6f" id="U8m-vu-deL"/>
+                            <outlet property="delegate" destination="Cv7-2a-o6f" id="7Oa-nt-wOU"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Offline Comics" id="k2j-sz-Cea"/>
+                    <connections>
+                        <segue destination="9zy-oM-OEB" kind="showDetail" identifier="comicRead" id="2g1-LA-uZt"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gvX-jV-VWj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2392.8000000000002" y="793.8530734632684"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="2g1-LA-uZt"/>
+    </inferredMetricsTieBreakers>
 </document>

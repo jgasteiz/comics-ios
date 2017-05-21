@@ -150,25 +150,36 @@ class ComicsController {
                     .responseData(completionHandler: { response in
                         if (response.response?.statusCode == 200) {
                             print("Page `\(pageURL)` downloaded successfully.")
+                            
+                            self.downloads[pageId] = ["taskRunning": false as AnyObject]
+                            self.downloads[comic.id.toString()]?["pagesDownloaded"] = self.downloads[comic.id.toString()]?["pagesDownloaded"] as! Int + 1 as AnyObject
+                            
+                            let totalPages = self.downloads[comic.id.toString()]?["numPages"] as! Int
+                            let downloadedPages = self.downloads[comic.id.toString()]?["pagesDownloaded"] as! Int
+                            let message = "\(downloadedPages) out of \(totalPages) pages downloaded"
+                            onPageDownloaded(message)
+                            
+                            // Check if all the pages have been downloaded
+                            if (totalPages == downloadedPages) {
+                                onComicDownloaded(message)
+                            }
+                            
                         } else {
                             print ("ERROR: Page `\(pageURL)` wasn't downloaded successfully.")
-                        }
-                        
-                        self.downloads[pageId] = ["taskRunning": false as AnyObject]
-                        self.downloads[comic.id.toString()]?["pagesDownloaded"] = self.downloads[comic.id.toString()]?["pagesDownloaded"] as! Int + 1 as AnyObject
-                        
-                        let totalPages = self.downloads[comic.id.toString()]?["numPages"] as! Int
-                        let downloadedPages = self.downloads[comic.id.toString()]?["pagesDownloaded"] as! Int
-                        let message = "\(downloadedPages) out of \(totalPages) pages downloaded"
-                        onPageDownloaded(message)
-                        
-                        // Check if all the pages have been downloaded
-                        if (totalPages == downloadedPages) {
-                            onComicDownloaded(message)
                         }
                     })
             }
         }
+    }
+    
+    func getOfflineComics() -> [Comic] {
+        var comicList: [Comic] = []
+        
+        comicList.append(
+            Comic(id: 1, title: "The Walking Dead - 01", pages: ["lol"], series: Series(id: 1, title: "nope"))
+        )
+        
+        return comicList
     }
     
     ////////////////////////////////////

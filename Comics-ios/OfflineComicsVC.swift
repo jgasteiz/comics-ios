@@ -1,28 +1,22 @@
 //
-//  ComicsVC.swift
+//  OfflineComicsVC.swift
 //  Comics-ios
 //
-//  Created by Javi Manzano on 24/04/2017.
+//  Created by Javi Manzano on 5/21/17.
 //  Copyright © 2017 Javi Manzano. All rights reserved.
 //
 
+import Foundation
+
 import UIKit
 
-class ComicsVC: UITableViewController {
+class OfflineComicsVC: UITableViewController {
     let comicsController = ComicsController.sharedInstance
-    
-    var series: Series?
+
     var comicList: [Comic] = []
-    var offlineComicIds: [NSNumber] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        guard let series = series else {
-            return
-        }
-        
-        navigationItem.title = series.title
         
         // Set table cells automatic height
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -31,38 +25,23 @@ class ComicsVC: UITableViewController {
         
         // Pull to refresh
         refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(ComicsVC.getSeriesComics), for: UIControlEvents.valueChanged)
+        refreshControl?.addTarget(
+            self,
+            action: #selector(OfflineComicsVC.getOfflineComics),
+            for: UIControlEvents.valueChanged
+        )
         if let refreshControl = refreshControl {
             tableView.addSubview(refreshControl)
         }
         
-        // Fetch the snippets
+        // Fetch the comics
         refreshControl?.beginRefreshing()
-        getSeriesComics()
+        getOfflineComics()
     }
     
     
-    func getSeriesComics () {
-        if let series = series {
-            comicsController.getSeriesComics(
-                series: series,
-                onComicsFetched: { (comics) in
-                    self.comicList = comics
-                    
-                    // Fetch offline comic ids.
-                    for comic in comics {
-                        if comic.isOffline() {
-                            self.offlineComicIds.append(comic.id)
-                        }
-                    }
-                    
-                    self.tableView.reloadData()
-                    self.refreshControl?.endRefreshing()
-            }, onError: {
-                self.showAlert("Error", message: "Couldn't get the comics")
-                self.refreshControl?.endRefreshing()
-            })
-        }
+    func getOfflineComics () {
+        comicList = comicsController.getOfflineComics()
     }
     
     /*
@@ -86,7 +65,7 @@ class ComicsVC: UITableViewController {
     }
 }
 
-extension ComicsVC {
+extension OfflineComicsVC {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return comicList.count
     }
@@ -99,11 +78,11 @@ extension ComicsVC {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ComicCell", for: indexPath) as! ComicTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "OfflineComicCell", for: indexPath) as! OfflineComicTableViewCell
         
         let comic = comicList[indexPath.row]
         
-        cell.setContent(offlineComicIds: offlineComicIds, comic: comic)
+        cell.setContent(comic: comic)
         
         return cell
     }
