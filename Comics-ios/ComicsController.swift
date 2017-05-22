@@ -172,12 +172,47 @@ class ComicsController {
         }
     }
     
-    func getOfflineComics() -> [Comic] {
-        var comicList: [Comic] = []
+    func getOfflineComics() -> [OfflineComic] {
+        var comicList: [OfflineComic] = []
         
-        comicList.append(
-            Comic(id: 1, title: "The Walking Dead - 01", pages: ["lol"], series: Series(id: 1, title: "nope"))
-        )
+        do {
+            let seriesURLs = try FileManager.default.contentsOfDirectory(
+                at: ComicsController.getDownloadsDirectory(),
+                includingPropertiesForKeys: nil,
+                options: .skipsPackageDescendants
+            )
+            for seriesURL in seriesURLs {
+                if !seriesURL.path.hasSuffix(".DS_Store") && seriesURL.isDirectory {
+                    let comicURLs = try FileManager.default.contentsOfDirectory(
+                        at: seriesURL,
+                        includingPropertiesForKeys: nil,
+                        options: .skipsPackageDescendants
+                    )
+                    
+                    for comicURL in comicURLs {
+                        if !comicURL.path.hasSuffix(".DS_Store") && comicURL.isDirectory {
+                            let comicPagesURLs = try FileManager.default.contentsOfDirectory(
+                                at: comicURL,
+                                includingPropertiesForKeys: nil,
+                                options: .skipsPackageDescendants
+                            )
+                            
+                            var offlineComicTitle = comicURL.path.components(separatedBy: "/").last
+                            if offlineComicTitle == nil {
+                                offlineComicTitle = "Unnamed comic"
+                            }
+                            if let offlineComicTitle = offlineComicTitle {
+                                comicList.append(
+                                    OfflineComic(title: offlineComicTitle, pages: comicPagesURLs)
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        } catch {
+            print("Couldn't get the list of offline pages")
+        }
         
         return comicList
     }

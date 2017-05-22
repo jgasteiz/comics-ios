@@ -27,6 +27,7 @@
 		DA2015171ED1FCDD00AF426F /* NSNumber+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2015161ED1FCDD00AF426F /* NSNumber+Extensions.swift */; };
 		DA204D651ED2502900EFBDC9 /* OfflineComicsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA204D641ED2502900EFBDC9 /* OfflineComicsVC.swift */; };
 		DA204D671ED2538A00EFBDC9 /* OfflineComicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA204D661ED2538A00EFBDC9 /* OfflineComicTableViewCell.swift */; };
+		DA204D691ED2767D00EFBDC9 /* OfflineComic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA204D681ED2767D00EFBDC9 /* OfflineComic.swift */; };
 		DA82AFAA1EC84DF800284F82 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA82AFA91EC84DF800284F82 /* credentials.plist */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 		DA2015161ED1FCDD00AF426F /* NSNumber+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNumber+Extensions.swift"; sourceTree = "<group>"; };
 		DA204D641ED2502900EFBDC9 /* OfflineComicsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineComicsVC.swift; sourceTree = "<group>"; };
 		DA204D661ED2538A00EFBDC9 /* OfflineComicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineComicTableViewCell.swift; sourceTree = "<group>"; };
+		DA204D681ED2767D00EFBDC9 /* OfflineComic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineComic.swift; sourceTree = "<group>"; };
 		DA82AFA91EC84DF800284F82 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		DF377B62C17DEC68C964EC12 /* Pods-Comics-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Comics-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Comics-ios/Pods-Comics-ios.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -197,6 +199,7 @@
 			children = (
 				5930A44E1EAE898300E3B66B /* Series.swift */,
 				5930A4501EAE89D200E3B66B /* Comic.swift */,
+				DA204D681ED2767D00EFBDC9 /* OfflineComic.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 			files = (
 				DA204D651ED2502900EFBDC9 /* OfflineComicsVC.swift in Sources */,
 				5918E5AF1EB89C5F008B07BE /* URL+Extensions.swift in Sources */,
+				DA204D691ED2767D00EFBDC9 /* OfflineComic.swift in Sources */,
 				5930A4571EAE9EA000E3B66B /* ComicsVC.swift in Sources */,
 				DA204D671ED2538A00EFBDC9 /* OfflineComicTableViewCell.swift in Sources */,
 				5930A4591EAE9F0D00E3B66B /* ComicTableViewCell.swift in Sources */,

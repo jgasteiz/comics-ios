@@ -13,7 +13,7 @@ import UIKit
 class OfflineComicsVC: UITableViewController {
     let comicsController = ComicsController.sharedInstance
 
-    var comicList: [Comic] = []
+    var comicList: [OfflineComic] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,44 +23,14 @@ class OfflineComicsVC: UITableViewController {
         tableView.estimatedRowHeight = 64
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        // Pull to refresh
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(
-            self,
-            action: #selector(OfflineComicsVC.getOfflineComics),
-            for: UIControlEvents.valueChanged
-        )
-        if let refreshControl = refreshControl {
-            tableView.addSubview(refreshControl)
-        }
-        
-        // Fetch the comics
-        refreshControl?.beginRefreshing()
-        getOfflineComics()
-    }
-    
-    
-    func getOfflineComics () {
+        // Fetch the offline comics
         comicList = comicsController.getOfflineComics()
-    }
-    
-    /*
-     Shows a dismissable alert with a title and a message.
-     */
-    func showAlert(_ title: String, message: String) {
-        let alertController = UIAlertController(
-            title: title,
-            message: message,
-            preferredStyle: UIAlertControllerStyle.alert
-        )
-        alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-        present(alertController, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "comicRead" {
             let destination = segue.destination as! ComicReadVC
-            destination.comic = sender as? Comic
+            destination.offlineComic = sender as? OfflineComic
         }
     }
 }
@@ -72,17 +42,17 @@ extension OfflineComicsVC {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let indexPath = tableView.indexPathForSelectedRow as IndexPath! {
-            let comic = comicList[indexPath.row]
-            performSegue(withIdentifier: "comicRead", sender: comic)
+            let offlineComic = comicList[indexPath.row]
+            performSegue(withIdentifier: "comicRead", sender: offlineComic)
         }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "OfflineComicCell", for: indexPath) as! OfflineComicTableViewCell
         
-        let comic = comicList[indexPath.row]
+        let offlineComic = comicList[indexPath.row]
         
-        cell.setContent(comic: comic)
+        cell.setContent(offlineComic: offlineComic)
         
         return cell
     }

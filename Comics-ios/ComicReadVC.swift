@@ -18,6 +18,7 @@ class ComicReadVC: UIViewController {
     
     // MARK: - Properties
     var comic: Comic?
+    var offlineComic: OfflineComic?
     var pageNumber = 0
     var fitMode: FitMode = FitMode.height
     
@@ -62,12 +63,12 @@ class ComicReadVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        guard let comic = comic else {
-            print("There's no comic to load.")
-            return
+        if let comic = comic {
+            navigationBarItem.title = comic.title
+        } else if let offlineComic = offlineComic {
+            navigationBarItem.title = offlineComic.title
         }
         
-        navigationBarItem.title = comic.title
         loadCurrentPage()
     }
     
@@ -92,9 +93,8 @@ class ComicReadVC: UIViewController {
         // Show the activity indicator.
         startLoading()
         
-        let currentPageURL = comic?.getPageURL(pageNum: pageNumber)
-        if let currentPageURL = currentPageURL {
-            
+        // Set the current page.
+        if let currentPageURL = getCurrentPageURL() {
             activePageView.af_setImage(withURL: currentPageURL, completion: {(image) in
                 self.activePageView.image = self.activePageView.image!.af_imageAspectScaled(toFit: self.view.bounds.size)
                 self.updateScrollViewZoomScale(size: self.view.bounds.size)
@@ -171,13 +171,13 @@ class ComicReadVC: UIViewController {
     }
     
     func nextPage () {
-        guard let comic = comic else {
+        guard let numPages = getNumPages() else {
             print("There's no comic to load.")
             return
         }
         
         // If we're on the last page, close the reading session.
-        if pageNumber + 1 > comic.pages.count - 1 {
+        if pageNumber + 1 > numPages - 1 {
              finishReading(finished: true)
         } else {
             pageNumber = pageNumber + 1
@@ -228,6 +228,24 @@ class ComicReadVC: UIViewController {
     private func stopLoading() {
         activityIndicatorView.stopAnimating()
         activityIndicatorView.isHidden = true
+    }
+    
+    private func getNumPages() -> Int? {
+        if let comic = comic {
+            return comic.pages.count
+        } else if let offlineComic = offlineComic {
+            return offlineComic.pages.count
+        }
+        return nil
+    }
+    
+    private func getCurrentPageURL() -> URL? {
+        if let comic = comic {
+            return comic.getPageURL(pageNum: pageNumber)
+        } else if let offlineComic = offlineComic {
+            return offlineComic.getPageURL(pageNum: pageNumber)
+        }
+        return nil
     }
 }
 
