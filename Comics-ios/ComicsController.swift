@@ -65,7 +65,9 @@ class ComicsController {
                     for seriesDict in seriesJSON {
                         seriesList.append(Series(
                             id: seriesDict["pk"] as! NSNumber,
-                            title: seriesDict["title"] as! String
+                            title: seriesDict["title"] as! String,
+                            author: seriesDict["author"] as! String,
+                            year: seriesDict["year"] as! String
                         ))
                     }
                     
@@ -196,6 +198,10 @@ class ComicsController {
                                 includingPropertiesForKeys: nil,
                                 options: .skipsPackageDescendants
                             )
+                            // If the offline comic has no pages, don't add the comic to the list.
+                            if comicPagesURLs.count == 0 {
+                                continue
+                            }
                             
                             var offlineComicTitle = comicURL.path.components(separatedBy: "/").last
                             if offlineComicTitle == nil {
