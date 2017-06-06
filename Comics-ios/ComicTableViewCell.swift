@@ -13,17 +13,21 @@ class ComicTableViewCell: UITableViewCell {
     var comic: Comic?
     let comicsController = ComicsController.sharedInstance
     
+    var comicsVC: ComicsVC?
+    
     @IBOutlet weak var comicTitle: UILabel!
     @IBOutlet weak var downloadButton: UIButton!
     @IBOutlet weak var removeButton: UIButton!
     @IBOutlet weak var downloadProgress: UILabel!
     
     @IBAction func downloadComic(_ sender: Any) {
-        if let comic = comic {
+        if let comic = comic, let comicsVC = comicsVC {
             downloadButton.isHidden = true
             removeButton.isHidden = true
             downloadProgress.text = "Downloading"
             downloadProgress.isHidden = false
+            
+            comicsVC.registerBackgroundTask()
             
             comicsController.downloadComic(
                 comic: comic,
@@ -34,6 +38,10 @@ class ComicTableViewCell: UITableViewCell {
                     self.downloadProgress.isHidden = true
                     self.downloadButton.isHidden = true
                     self.removeButton.isHidden = false
+                    
+                    if comicsVC.backgroundTask != UIBackgroundTaskInvalid {
+                        comicsVC.endBackgroundTask()
+                    }
                 })
         }
     }
@@ -44,7 +52,8 @@ class ComicTableViewCell: UITableViewCell {
         }
     }
     
-    func setContent (offlineComicIds: [NSNumber], comic: Comic) {
+    func setContent (comicsVC: ComicsVC, offlineComicIds: [NSNumber], comic: Comic) {
+        self.comicsVC = comicsVC
         self.comic = comic
         comicTitle.text = comic.title
         

@@ -15,8 +15,16 @@ class ComicsVC: UITableViewController {
     var comicList: [Comic] = []
     var offlineComicIds: [NSNumber] = []
     
+    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(reinstateBackgroundTask),
+            name: NSNotification.Name.UIApplicationDidBecomeActive,
+            object: nil)
         
         guard let series = series else {
             return
@@ -41,6 +49,9 @@ class ComicsVC: UITableViewController {
         getSeriesComics()
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     func getSeriesComics () {
         if let series = series {
@@ -103,9 +114,31 @@ extension ComicsVC {
         
         let comic = comicList[indexPath.row]
         
-        cell.setContent(offlineComicIds: offlineComicIds, comic: comic)
+        cell.setContent(comicsVC: self, offlineComicIds: offlineComicIds, comic: comic)
         
         return cell
     }
 }
 
+// Background task
+extension ComicsVC {
+    
+    func registerBackgroundTask() {
+        backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+            self?.endBackgroundTask()
+        }
+        assert(backgroundTask != UIBackgroundTaskInvalid)
+    }
+    
+    func endBackgroundTask() {
+        print("Background task ended.")
+        UIApplication.shared.endBackgroundTask(backgroundTask)
+        backgroundTask = UIBackgroundTaskInvalid
+    }
+    
+    func reinstateBackgroundTask() {
+        if backgroundTask == UIBackgroundTaskInvalid {
+            registerBackgroundTask()
+        }
+    }
+}

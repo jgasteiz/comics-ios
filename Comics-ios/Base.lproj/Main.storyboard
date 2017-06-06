@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="aMB-j4-idM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="aMB-j4-idM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -252,11 +252,11 @@
             </objects>
             <point key="canvasLocation" x="596" y="26.53673163418291"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Bookshelf-->
         <scene sceneID="2Dn-zg-24T">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hPZ-tZ-N2h" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="bookmarks" id="ljY-PT-2uD"/>
+                    <tabBarItem key="tabBarItem" title="Bookshelf" image="ic_bookshelf" selectedImage="ic_bookshelf" id="ljY-PT-2uD"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="RiY-zY-SOJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -271,11 +271,11 @@
             </objects>
             <point key="canvasLocation" x="1535.2" y="26.53673163418291"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Downloads-->
         <scene sceneID="p51-5j-Kwq">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="V91-MW-Ag0" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" systemItem="downloads" id="jFB-x1-zi6"/>
+                    <tabBarItem key="tabBarItem" title="Downloads" image="ic_system_update" selectedImage="ic_system_update" id="jFB-x1-zi6"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vUB-nt-hbB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -339,6 +339,10 @@
             <point key="canvasLocation" x="2392.8000000000002" y="793.8530734632684"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ic_bookshelf" width="24" height="24"/>
+        <image name="ic_system_update" width="24" height="24"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="2g1-LA-uZt"/>
     </inferredMetricsTieBreakers>
