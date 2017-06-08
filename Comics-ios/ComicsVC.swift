@@ -15,8 +15,6 @@ class ComicsVC: UITableViewController {
     var comicList: [Comic] = []
     var offlineComicIds: [NSNumber] = []
     
-    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -114,7 +112,7 @@ extension ComicsVC {
         
         let comic = comicList[indexPath.row]
         
-        cell.setContent(comicsVC: self, offlineComicIds: offlineComicIds, comic: comic)
+        cell.setContent(offlineComicIds: offlineComicIds, comic: comic)
         
         return cell
     }
@@ -122,23 +120,7 @@ extension ComicsVC {
 
 // Background task
 extension ComicsVC {
-    
-    func registerBackgroundTask() {
-        backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
-            self?.endBackgroundTask()
-        }
-        assert(backgroundTask != UIBackgroundTaskInvalid)
-    }
-    
-    func endBackgroundTask() {
-        print("Background task ended.")
-        UIApplication.shared.endBackgroundTask(backgroundTask)
-        backgroundTask = UIBackgroundTaskInvalid
-    }
-    
     func reinstateBackgroundTask() {
-        if backgroundTask == UIBackgroundTaskInvalid {
-            registerBackgroundTask()
-        }
+        comicsController.reinstateBackgroundTask()
     }
 }

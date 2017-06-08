@@ -12,6 +12,8 @@ import Foundation
 
 class ComicsController {
     
+    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    
     var downloads = [String: [String: AnyObject]]()
     
     static let sharedInstance = ComicsController()
@@ -221,6 +223,26 @@ class ComicsController {
         }
         
         return comicList
+    }
+    
+    // Background task functions
+    func registerBackgroundTask() {
+        backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+            self?.endBackgroundTask()
+        }
+        assert(backgroundTask != UIBackgroundTaskInvalid)
+    }
+    
+    func endBackgroundTask() {
+        print("Background task ended.")
+        UIApplication.shared.endBackgroundTask(backgroundTask)
+        backgroundTask = UIBackgroundTaskInvalid
+    }
+    
+    func reinstateBackgroundTask() {
+        if backgroundTask == UIBackgroundTaskInvalid {
+            registerBackgroundTask()
+        }
     }
     
     ////////////////////////////////////
