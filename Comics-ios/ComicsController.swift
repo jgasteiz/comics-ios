@@ -113,11 +113,15 @@ class ComicsController {
             })
     }
     
-    func downloadComic (
-        comic: Comic,
-        onPageDownloaded: @escaping (String) -> Void,
-        onComicDownloaded: @escaping (String) -> Void
-    ) {
+    func downloadComic (comic: Comic) {
+        
+        // Initialize the comic download
+        downloads[comic.id.toString()] = [
+            "numPages": comic.pages.count as AnyObject,
+            "pagesDownloaded": 0 as AnyObject,
+            "percentage": "0%" as AnyObject
+        ]
+        
         let downloadsDirectory = ComicsController.getDownloadsDirectory()
         print(downloadsDirectory.path)
         
@@ -128,22 +132,13 @@ class ComicsController {
         // Remove any existing files/directories in the comic directory.
         comic.getComicDirectoryURL().emptyDirectory()
         
-        // Initialize the comic download
-        downloads[comic.id.toString()] = [
-            "numPages": comic.pages.count as AnyObject,
-            "pagesDownloaded": 0 as AnyObject
-        ]
-        
         // Download all comic pages in the comic directory.
         for page in comic.pages {
             if let pageURL = URL(string: page), let fileName = pageURL.getFileName() {
-                let pageId = "\(comic.id)__\(page)"
-                downloads[pageId] = ["taskRunning": true as AnyObject]
-                
-                let urlRequest = URLRequest(url: pageURL)
-                downloads[pageId]!["request"] = Alamofire
+
+                Alamofire
                     .download(
-                        urlRequest,
+                        URLRequest(url: pageURL),
                         to: { (destinationURL, response) -> (destinationURL: URL, options: DownloadRequest.DownloadOptions) in
                             
                             return (
@@ -155,17 +150,16 @@ class ComicsController {
                         if (response.response?.statusCode == 200) {
                             print("Page `\(pageURL)` downloaded successfully.")
                             
-                            self.downloads[pageId] = ["taskRunning": false as AnyObject]
                             self.downloads[comic.id.toString()]?["pagesDownloaded"] = self.downloads[comic.id.toString()]?["pagesDownloaded"] as! Int + 1 as AnyObject
                             
                             let totalPages = self.downloads[comic.id.toString()]?["numPages"] as! Int
                             let downloadedPages = self.downloads[comic.id.toString()]?["pagesDownloaded"] as! Int
-                            let message = "\(downloadedPages) out of \(totalPages) pages downloaded"
-                            onPageDownloaded(message)
+                            let percentage = "\(100 * downloadedPages / totalPages)%"
+                            self.downloads[comic.id.toString()]?["percentage"] = percentage as AnyObject
                             
                             // Check if all the pages have been downloaded
                             if (totalPages == downloadedPages) {
-                                onComicDownloaded(message)
+                                self.downloads[comic.id.toString()] = nil
                             }
                             
                         } else {
@@ -174,6 +168,10 @@ class ComicsController {
                     })
             }
         }
+    }
+    
+    func getCurrentPercentage (comic: Comic) -> String? {
+        return self.downloads[comic.id.toString()]?["percentage"] as! String?
     }
     
     func getOfflineComics() -> [OfflineComic] {

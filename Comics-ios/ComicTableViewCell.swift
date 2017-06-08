@@ -11,6 +11,8 @@ import UIKit
 class ComicTableViewCell: UITableViewCell {
     
     var comic: Comic?
+    var timer = Timer()
+    var offlineComicIds: [NSNumber] = []
     let comicsController = ComicsController.sharedInstance
     
     @IBOutlet weak var comicTitle: UILabel!
@@ -26,21 +28,9 @@ class ComicTableViewCell: UITableViewCell {
             downloadProgress.isHidden = false
             
             comicsController.registerBackgroundTask()
+            comicsController.downloadComic(comic: comic)
             
-            comicsController.downloadComic(
-                comic: comic,
-                onPageDownloaded: { (message) in
-                    self.downloadProgress.text = message
-                },
-                onComicDownloaded: { (message) in
-                    self.downloadProgress.isHidden = true
-                    self.downloadButton.isHidden = true
-                    self.removeButton.isHidden = false
-                    
-                    if self.comicsController.backgroundTask != UIBackgroundTaskInvalid {
-                        self.comicsController.endBackgroundTask()
-                    }
-                })
+            updateDownloadPercentage()
         }
     }
     
@@ -52,14 +42,41 @@ class ComicTableViewCell: UITableViewCell {
     
     func setContent (offlineComicIds: [NSNumber], comic: Comic) {
         self.comic = comic
+        self.offlineComicIds = offlineComicIds
         comicTitle.text = comic.title
         
-        if offlineComicIds.contains(comic.id) {
-            downloadButton.isHidden = true
-            removeButton.isHidden = false
-        } else {
-            removeButton.isHidden = true
-            downloadButton.isHidden = false
+        updateDownloadPercentage()
+        lookForOfflineComic()
+    }
+    
+    func updateDownloadPercentage () {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateDownload), userInfo: nil, repeats: true)
+    }
+    
+    func lookForOfflineComic () {
+        if let comic = comic {
+            if offlineComicIds.contains(comic.id) {
+                downloadButton.isHidden = true
+                removeButton.isHidden = false
+                downloadProgress.isHidden = true
+            } else {
+                removeButton.isHidden = true
+                downloadButton.isHidden = false
+            }
+        }
+    }
+    
+    func updateDownload (){
+        if let comic = comic {
+            if let percentage = comicsController.getCurrentPercentage(comic: comic) {
+                downloadButton.isHidden = true
+                removeButton.isHidden = true
+                downloadProgress.text = percentage
+                downloadProgress.isHidden = false
+            } else {
+                lookForOfflineComic()
+                timer.invalidate()
+            }
         }
     }
 }
